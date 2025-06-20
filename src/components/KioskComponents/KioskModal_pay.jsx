@@ -1,16 +1,12 @@
-import { useReducer } from "react";
 import "./KioskModal_pay.css";
+import { useNavigate } from "react-router-dom";
+const KioskModalPay = ({ setOnOlderModal }) => {
+  const nav = useNavigate();
 
-function reducer(state, action) {
-  switch (action.type) {
-    case 1:
-      return;
-  }
-}
-
-const KioskModalPay = ({ setOnPayModal }) => {
-  //선택 버튼에 따라 모달 창이 바뀜0
-  const [chageModal, dispatch] = useReducer(reducer, "");
+  const nextPage = () => {
+    setOnOlderModal(false);
+    nav("/Kiosk/:2");
+  };
 
   return (
     <div className="PayModal">
@@ -23,17 +19,12 @@ const KioskModalPay = ({ setOnPayModal }) => {
           <button
             className="leftBtn"
             onClick={() => {
-              setOnPayModal(false);
+              setOnOlderModal(false);
             }}
           >
             이전
           </button>
-          <button
-            className="rightBtn"
-            onClick={() => {
-              dispatch;
-            }}
-          >
+          <button className="rightBtn" onClick={nextPage}>
             결제하기
           </button>
         </div>

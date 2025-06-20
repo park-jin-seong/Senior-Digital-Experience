@@ -7,6 +7,7 @@ import Map from "./pages/Map";
 import Community from "./pages/Community";
 import NotFound from "./pages/NotFound";
 import KioskStart from "./pages/Kiosk_Start";
+import Kiosk_PayMent from "./pages/Kiosk_PayMent";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { createContext, use } from "react";
 import { useEffect, useReducer, useRef, useState } from "react";
@@ -239,6 +240,7 @@ function App() {
             <Route path="/MyPage" element={<MyPage />} />
             <Route path="/Kiosk" element={<KioskStart />}></Route>
             <Route path="/Kiosk/:1" element={<Kiosk />}></Route>
+            <Route path="/Kiosk/:2" element={<Kiosk_PayMent />}></Route>
             <Route
               path="/NaverBook/page01"
               element={<NaverBook_page01 />}

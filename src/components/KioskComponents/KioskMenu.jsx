@@ -21,11 +21,11 @@ const KioskMenu = () => {
   //카테고리 선택시 변하는 값을 저장할 state
   const [pickMenu, setPickMenu] = useState("coffee");
 
-  // 모달창을 띄우기 위한 state
-  const [onModal, setOnModal] = useState(false);
+  // 옵션 모달 띄우기 위한 state
+  const [onOptionModal, setOnOptionModal] = useState(false);
 
-  //결제 모달 띄우기 위한 state
-  const [onPayModal, setOnPayModal] = useState(false);
+  //주문내역 모달 띄우기 위한 state
+  const [onOlderModal, setOnOlderModal] = useState(false);
 
   //선택된 음료의 객체를 저장할 state
   const [selectedItem, setSelectedItem] = useState({});
@@ -33,6 +33,7 @@ const KioskMenu = () => {
   //클릭한 음료 객체들 담아두는 리스트
   //orderItems에는 선택한 item -> [{itemId,itemName, itemPrice}]
   const [orderItems, setOrderItems] = useState([]);
+
   console.log(orderItems);
   // 선택된 메뉴 주문 정보 객체 전달-------
   const AddToOrder = (itemToAdd) => {
@@ -101,7 +102,7 @@ const KioskMenu = () => {
 
   const ItemClick = (item) => {
     setSelectedItem(item); // 클릭된 아이템 정보 저장
-    setOnModal(true); // 모달 열기
+    setOnOptionModal(true); // 모달 열기
   };
 
   // 주문 하기 함수
@@ -136,10 +137,11 @@ const KioskMenu = () => {
     }
     return null;
   };
+
   return (
     <>
       {/* 모달창 css 적용을 위한 조건문 */}
-      <div className={onModal === true ? "OverMenu" : "AllDisplay"}>
+      <div className={onOptionModal === true ? "OverMenu" : "AllDisplay"}>
         <div className="MenuBar">
           {/* 메뉴바 버튼 클릭시 pickMenu 값 변경 */}
           <button
@@ -168,32 +170,29 @@ const KioskMenu = () => {
           </button>
         </div>
         <div className="coffee_menu">{changeMenu()}</div>
-
         {/* 주문 내역 채우기 및 계산 */}
         <div>
           <KioskOrderCal
             orderItems={orderItems}
             setOrderItems={setOrderItems}
-            setOnModal={setOnModal}
-            setOnPayModal={setOnPayModal}
+            setOnOptionModal={setOnOptionModal}
+            setOnPayModal={setOnOlderModal}
           />
         </div>
         <div>
-          {onModal &&
+          {onOptionModal &&
             selectedItem && ( // selectedItem이 null이 아닐 때만 모달 렌더링
               <KioskModal
                 selectedItem={selectedItem} //선택된 메뉴 정보 객체
                 pickMenu={pickMenu} //선택된 메뉴의 카테고리 (커피, 음료, 디저트 중 하나)
-                setOnModal={setOnModal} // 모달 닫기 용도로 전달
+                setOnOptionModal={setOnOptionModal} // 모달 닫기 용도로 전달
                 onAddToOrder={AddToOrder} // 주문 추가 함수 전달
               />
             )}
         </div>
-
         <div>
-          {" "}
-          {onPayModal && selectedItem && (
-            <KioskModalPay setOnPayModal={setOnPayModal} />
+          {onOlderModal && selectedItem && (
+            <KioskModalPay setOnOlderModal={setOnOlderModal} />
           )}
         </div>
       </div>

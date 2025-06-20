@@ -1,8 +1,8 @@
 import "./Kiosk.css";
-import { useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import Button from "../components/Button";
 import KioskMenu from "../components/KioskComponents/KioskMenu";
+import { useNavigate } from "react-router-dom";
 
 const Kiosk = () => {
   const nav = useNavigate();

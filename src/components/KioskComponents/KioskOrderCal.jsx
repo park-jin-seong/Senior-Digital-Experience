@@ -1,5 +1,4 @@
 import "./KioskOrderCal.css";
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 // 주문내역 총수량 및 총합계 계산
 // orderItems에는 [itemId,itemName, itemPrice]
