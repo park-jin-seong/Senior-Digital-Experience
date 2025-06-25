@@ -1,11 +1,12 @@
 import "./KioskFinal.css";
 import { useContext, useState } from "react";
-import { DataDispatchContext } from "../App";
+import { DataDispatchContext, DataStateContext } from "../App";
 import { useNavigate } from "react-router-dom";
 
 const KioskFinal = () => {
+  const { loginedId } = useContext(DataStateContext);
   const { getOrderList } = useContext(DataDispatchContext);
-  const { getIsChallenged } = useContext(DataDispatchContext); //미션인지 연습인지(현재 false)
+  const { getIsChallenged, onUpdate } = useContext(DataDispatchContext); //미션인지 연습인지(현재 false)
   const nav = useNavigate();
   const [showResult, setShowResult] = useState(true);
   const backMenuPage = () => {
@@ -24,6 +25,17 @@ const KioskFinal = () => {
     }
   });
   const isHave = hasDalgona && hasCheseCake;
+  if (isHave) {
+    var mission = loginedId.mission;
+    mission[0] = true;
+    onUpdate(
+      loginedId.id,
+      loginedId.phoneNum,
+      loginedId.password,
+      loginedId.birth,
+      mission
+    );
+  }
 
   return (
     <>

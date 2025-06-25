@@ -16,17 +16,16 @@
   right: 9px;
   max-width: 430px;
   margin: 0 auto;
-  top: -908px;
-  height: 735px;
+  top: -790px;
+  height: 635px;
 }
-  
- .bookWrapper {
+
+.bookWrapper {
   position: relative;
   margin: 0 auto;
   padding: 0 8px;
   height: 100vh;
 }
-
 
 /* 상단 이미지 + 그라데이션 */
 .topImageBox {
@@ -223,7 +222,7 @@
     max-width: 100%;
   }
 
- /* 메인 콘텐츠 박스 */
+  /* 메인 콘텐츠 박스 */
   .NaverBook_page02 {
     width: 100% !important;
     max-width: 100% !important;
@@ -248,12 +247,10 @@
     text-align: center;
   }
 
-  
   .phone-frame {
     display: none !important;
   }
 
-  
   .tooltip {
     font-size: 20px;
     padding: 20px 15px;
@@ -265,8 +262,3 @@
     margin-left: -5px;
   }
 }
-
-
-  
- 
-  

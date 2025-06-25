@@ -3,12 +3,14 @@ import { useEffect, useState, useContext } from "react";
 import "./NaverBook_page05.css";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
-import { DataDispatchContext } from "../../App";
+import { DataDispatchContext, DataStateContext } from "../../App";
 import "../../components/highlight.css";
 
 const NaverBook_page05 = () => {
   const location = useLocation();
-  const { getIsChallenged, setIsChallenged } = useContext(DataDispatchContext);
+  const { getIsChallenged, setIsChallenged, onUpdate } =
+    useContext(DataDispatchContext);
+  const { loginedId } = useContext(DataStateContext);
   const { date, time, slot, purposeTreatment, treatmentRequest } =
     location.state || {};
 
@@ -39,6 +41,15 @@ const NaverBook_page05 = () => {
         isDateMatch && isTimeMatch && isPurposeMatch && isRequestMatch;
 
       if (isAllMatch) {
+        var mission = loginedId.mission;
+        mission[1] = true;
+        onUpdate(
+          loginedId.id,
+          loginedId.phoneNum,
+          loginedId.password,
+          loginedId.birth,
+          mission
+        );
         setIsConfirmed(true);
       } else {
         setIsFailed(true);

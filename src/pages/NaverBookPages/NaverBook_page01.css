@@ -16,11 +16,11 @@
   right: 9px;
   max-width: 430px;
   margin: 0 auto;
-  top: -908px;
-  height: 735px;
+  top: -790px;
+  height: 635px;
 }
-  
- .bookWrapper {
+
+.bookWrapper {
   position: relative;
   margin: 0 auto;
   padding: 0 8px;
@@ -144,19 +144,18 @@
   background-color: #ddd;
 }
 
-
 .redHighlight {
   color: #f88400;
   padding: 7px;
   font-weight: bold;
   font-size: 25px;
 }
-.noticeHighlight{
+.noticeHighlight {
   background-color: #f88400;
   border-radius: 5px;
   padding: 3px 8px;
   display: inline-block; /* ✅ margin이 적용되도록 */
-  margin-bottom: 25px; 
+  margin-bottom: 25px;
 }
 /* 버튼 (예약, 문의) */
 .reservation_button {
@@ -247,9 +246,7 @@
   margin-right: auto;
 }
 
-
 @media screen and (max-width: 480px) {
-  
   .phone-frame {
     display: none !important;
   }
@@ -272,21 +269,20 @@
   }
 
   /* 예약 버튼 */
- .reservation_button {
-  width: 330px !important;
-}
+  .reservation_button {
+    width: 330px !important;
+  }
 
- .reservation_button Button {
-  width: 100% !important;
-  font-size: 17px;
-}
+  .reservation_button Button {
+    width: 100% !important;
+    font-size: 17px;
+  }
 
   /* 메인 이미지 작게 */
   .main-photo img {
     width: 140px !important;
     height: 180px !important;
-}
-
+  }
 
   .sub-photo-grid {
     width: 100%;
@@ -347,7 +343,7 @@
     padding: 4px;
   }
 
-    .tooltip {
+  .tooltip {
     font-size: 20px;
     padding: 20px 15px;
   }

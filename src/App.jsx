@@ -275,6 +275,11 @@ function App() {
   };
 
   const onUpdate = (id, phoneNum, password, birth, mission) => {
+    loginedId.id = id;
+    loginedId.phoneNum = phoneNum;
+    loginedId.password = password;
+    loginedId.birth = birth;
+    loginedId.mission = mission;
     dispatch({
       type: "UPDATE",
       data: {
