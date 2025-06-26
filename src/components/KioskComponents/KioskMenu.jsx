@@ -213,7 +213,7 @@ const KioskMenu = () => {
   };
   return (
     <>
-      <Header />
+      <Header leftIcon="left2" rightIcon="right2" />
 
       <div className="KIoskDisplay">
         {/* 모달창 css 적용을 위한 조건문 */}

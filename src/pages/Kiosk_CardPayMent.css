@@ -27,9 +27,8 @@
   height: 990px; /* 실제 이미지 파일의 높이 */
   /* 이미지의 비율을 유지하면서 주어진 width/height에 맞추기 (선택 사항) */
   object-fit: contain; /* 이미지가 잘리지 않고 프레임 안에 다 들어가게 */
-  border: 1px solid #000; /* 개발 시에만 사용하고, 최종 배포 시에는 제거 */
   margin-top: 25px;
-  z-index: 0;
+  z-index: 1;
 }
 
 .Kiosk_CardPayMent .cardPayMent {
@@ -37,7 +36,7 @@
   border-radius: 10px;
   background-color: white;
   width: 51%;
-  top: 39px;
+  top: 50px;
   left: 233px;
   height: 76%;
 }

@@ -7,42 +7,52 @@ import { DataDispatchContext, DataStateContext } from "../../App";
 import "../../components/highlight.css";
 
 const NaverBook_page05 = () => {
-  const location = useLocation();
+  const location = useLocation(); // 이전 페이지에서 넘긴 예약 정보 받기
   const { getIsChallenged, setIsChallenged, onUpdate } =
     useContext(DataDispatchContext);
   const { loginedId } = useContext(DataStateContext);
+
+  // 예약 정보
   const { date, time, slot, purposeTreatment, treatmentRequest } =
     location.state || {};
 
   const nav = useNavigate();
 
+  // 다시 도전 버튼 클릭 시 실행 (미션모드 on + 첫 페이지로 이동)
   const retryPage = () => {
     setIsChallenged("naverBook", true);
     nav("/NaverBook/page01");
   };
 
-  const [isConfirmed, setIsConfirmed] = useState(false);
-  const [isFailed, setIsFailed] = useState(false);
-  const [showResult, setShowResult] = useState(false);
+  // 미션 성공/실패 관련 상태
+  const [isConfirmed, setIsConfirmed] = useState(false); // 미션 성공 여부
+  const [isFailed, setIsFailed] = useState(false); // 미션 실패 여부
+  const [showResult, setShowResult] = useState(false); // 결과 보여줄지 여부
 
+  // 3초 후 미션 성공/실패 판정
   useEffect(() => {
     const timer = setTimeout(() => {
+      // 정답 조건 설정
       const missionDate = "2025-06-30";
       const missionTimeVal = "14:30";
       const missionPurpose = "보건증 발급";
       const missionRequest = "빠른 진료를 원해요";
 
+      // 각각의 조건 비교
       const isDateMatch = date === missionDate;
       const isTimeMatch = time === missionTimeVal;
       const isPurposeMatch = purposeTreatment?.includes(missionPurpose);
       const isRequestMatch = treatmentRequest === missionRequest;
 
+      // 네 가지 모두 맞아야 성공
       const isAllMatch =
         isDateMatch && isTimeMatch && isPurposeMatch && isRequestMatch;
 
       if (isAllMatch) {
-        var mission = loginedId.mission;
+        // 미션 성공 시 mission 배열 업데이트
+        const mission = loginedId.mission;
         mission[1] = true;
+
         onUpdate(
           loginedId.id,
           loginedId.phoneNum,
@@ -50,14 +60,16 @@ const NaverBook_page05 = () => {
           loginedId.birth,
           mission
         );
+
         setIsConfirmed(true);
       } else {
         setIsFailed(true);
       }
-      setShowResult(true);
+
+      setShowResult(true); // 결과 보여주기
     }, 3000);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(timer); // 컴포넌트 사라지면 타이머 해제
   }, []);
 
   return (
@@ -66,6 +78,7 @@ const NaverBook_page05 = () => {
       <div className="bookWrapper">
         <img src="/phone.png" alt="phone" />
         <div className="NaverBook_page05">
+          {/* 상단 아이콘 (상태에 따라 이미지 다르게 보여짐) */}
           <div className="bookImg">
             <img
               src={
@@ -81,7 +94,9 @@ const NaverBook_page05 = () => {
             />
           </div>
 
+          {/* 메시지 및 결과 안내 */}
           <div className="bookConfirm">
+            {/* 로딩 중일 때 */}
             {!showResult && (
               <>
                 <h1>예약을 확인 중입니다</h1>
@@ -96,16 +111,18 @@ const NaverBook_page05 = () => {
               </>
             )}
 
+            {/* 미션 성공 (실전 모드일 때만) */}
             {showResult && isConfirmed && getIsChallenged() && (
               <div className="resultBox success">
-                <h2>미션 성공 </h2>
+                <h2>미션 성공</h2>
                 <p>예약 정보가 성공적으로 전달되었습니다.</p>
               </div>
             )}
 
+            {/* 미션 실패 (실전 모드일 때) */}
             {showResult && isFailed && getIsChallenged() && (
               <div className="resultBox fail">
-                <h2>미션 실패 </h2>
+                <h2>미션 실패</h2>
                 <p className="missionReason">조건이 맞지 않아 실패했어요</p>
                 <p className="retryAgain">다시 도전해보세요!</p>
                 <div className="retryBtn">
@@ -114,9 +131,10 @@ const NaverBook_page05 = () => {
               </div>
             )}
 
+            {/* 연습모드일 때는 성공 실패 상관없이 연습 종료 */}
             {showResult && isFailed && !getIsChallenged() && (
               <div className="resultBox fail">
-                <h2>연습모드 종료 </h2>
+                <h2>연습모드 종료</h2>
                 <p className="missionReason">
                   연습 모드가 종료되었습니다.
                   <br />
@@ -129,6 +147,7 @@ const NaverBook_page05 = () => {
             )}
           </div>
 
+          {/* 하단 예약 정보 요약 */}
           <div className="finalBook">
             <p className="bookName">해봐YOU의원</p>
             <p className="bookDate">

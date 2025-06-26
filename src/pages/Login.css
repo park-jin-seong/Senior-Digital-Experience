@@ -5,7 +5,7 @@
   justify-content: center; /* 세로축 중앙 정렬 */
   min-height: 80vh; /* 뷰포트 높이 전체를 차지 */
   font-family: "Inter", sans-serif; /* 폰트 설정 */
-  color: #333; /* 기본 텍스트 색상 (주로 컨테이너 내부 텍스트에 적용) */
+  color: #1a2a21; /* 기본 텍스트 색상 (주로 컨테이너 내부 텍스트에 적용) */
 }
 
 /* 입력 필드와 버튼들을 감싸는 메인 컨테이너 */
@@ -28,13 +28,14 @@
 .Login input[type="password"] {
   width: 100%;
   padding: 18px 20px;
+  color: #1a2a21;
   border: 1px solid #ddd;
   border-radius: 8px;
   font-size: 1.3em;
   outline: none;
   box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05); /* 약간의 안쪽 그림자 */
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
-    font-family: 'Pretendard-Regular'; /* 또는 'Noto Sans KR', sans-serif */
+  font-family: "Paperlogy-8ExtraBold"; /* 또는 'Noto Sans KR', sans-serif */
   font-weight: 300;
 }
 
@@ -68,8 +69,8 @@
   cursor: pointer;
   transition: background-color 0.2s ease, transform 0.2s ease,
     box-shadow 0.2s ease;
-  margin: 0px ; /* 기존 마진 초기화 */
-    font-family: 'Pretendard-Regular'; /* 또는 'Noto Sans KR', sans-serif */
+  margin: 0px; /* 기존 마진 초기화 */
+  font-family: "Paperlogy-8ExtraBold"; /* 또는 'Noto Sans KR', sans-serif */
   font-weight: 600;
 }
 

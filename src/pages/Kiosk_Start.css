@@ -76,7 +76,6 @@
   height: 990px; /* 실제 이미지 파일의 높이 */
   /* 이미지의 비율을 유지하면서 주어진 width/height에 맞추기 (선택 사항) */
   object-fit: contain; /* 이미지가 잘리지 않고 프레임 안에 다 들어가게 */
-  border: 1px solid #000; /* 개발 시에만 사용하고, 최종 배포 시에는 제거 */
   margin-top: 25px;
 }
 
@@ -92,6 +91,9 @@
   z-index: 1;
   padding-bottom: 80px;
 }
+.firstDiv {
+  width: 507px;
+}
 
 .imageDisplay > div,
 .imageDisplay > img {
@@ -106,14 +108,18 @@
 }
 
 .wrapperStartDisplay .middleDiv {
-  width: 517px;
+  width: 507px;
   height: 237px;
   background-color: #3e3e3f;
   border-radius: 0; /* 라운드 코너를 전체적으로 맞추기 위해 0으로 설정하거나, .imageDisplay에 한 번에 적용 */
   box-sizing: border-box; /* 패딩 포함 크기 계산 */
   z-index: 10; /* ✅ 기존 0에서 높여줍니다 */
   position: relative;
-  margin: -7px;
+  margin: 0px;
+}
+.wrapperStartDisplay .middleDiv.practice {
+  width: 494px;
+  margin: 7px;
 }
 
 .middleDiv.highlight::after {
@@ -141,8 +147,8 @@
   padding-bottom: 200px; /* 터치 이미지가 너무 아래로 붙지 않도록 */
 }
 .lastImage {
-  width: 100%; /* 부모 .imageDisplay의 너비에 꽉 채우도록 */
-  height: 240px;
+  width: 507px; /* 부모 .imageDisplay의 너비에 꽉 채우도록 */
+  height: 230px;
   /* margin-left: 121px; */ /* ★★★ 제거. 부모 .imageDisplay가 이미 중앙에 있으므로. ★★★ */
   border-radius: 0px 0px 6px 6px;
 }

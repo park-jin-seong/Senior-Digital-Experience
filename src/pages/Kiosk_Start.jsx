@@ -22,7 +22,7 @@ const KioskStart = () => {
 
   return (
     <>
-      <Header />
+      <Header leftIcon="left2" rightIcon="right2" />
       {showPopup && getIsChallenged() && (
         <MissionPopup
           message={
@@ -60,7 +60,10 @@ const KioskStart = () => {
               </div>
             ) : (
               <Highlight tooltip="화면을 눌러주세요" color="sewonUptoyou">
-                <div className="middleDiv" onClick={() => nav("/Kiosk/:1")}>
+                <div
+                  className="middleDiv practice"
+                  onClick={() => nav("/Kiosk/:1")}
+                >
                   <div className="middleText">안녕하세요 고객님</div>
                   <div className="middleMainText">
                     <strong>
