@@ -34,7 +34,7 @@ const NewAccount = () => {
         />
         <input
           placeholder="비밀번호"
-          type="text"
+          type="password"
           onChange={(event) => {
             passwordValue.current = event.target.value;
           }}

@@ -25,7 +25,10 @@ const KioskFinal = () => {
     }
   });
   const isHave = hasDalgona && hasCheseCake;
-  if (isHave) {
+  console.log(loginedId);
+
+  if(loginedId != null){
+    if (isHave) {
     var mission = loginedId.mission;
     mission[0] = true;
     onUpdate(
@@ -36,7 +39,7 @@ const KioskFinal = () => {
       mission
     );
   }
-
+  }
   return (
     <>
       <div className="KioskFinal">

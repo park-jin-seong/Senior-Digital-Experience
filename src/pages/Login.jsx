@@ -64,7 +64,7 @@ const Login = () => {
         />
         <input
           ref={passwordValue}
-          type="text"
+          type="password"
           placeholder="비밀번호"
           value={password}
           onKeyDown={(e) => {
