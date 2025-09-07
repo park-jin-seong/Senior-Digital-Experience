@@ -1,10 +1,11 @@
-import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 훅
+import { useNavigate } from "react-router-dom"; 
 import "./NaverBook_page03.css";
 import { useState, useContext } from "react";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
-import Highlight from "../../components/highlight"; // 강조 컴포넌트
-import { DataDispatchContext } from "../../App"; // 미션 모드 확인용 context
+import Highlight from "../../components/highlight"; 
+import { DataDispatchContext } from "../../App"; 
+import NaverMissionButton from "../../components/NaverBookComponents/NaverMissionButton.jsx";
 
 const NaverBook_page03 = () => {
   const nav = useNavigate();
@@ -286,6 +287,7 @@ const TimeSelection = ({ selectedTime, setSelectedTime }) => (
         ))}
       </div>
     </div>
+          <NaverMissionButton />
   </div>
 );
 

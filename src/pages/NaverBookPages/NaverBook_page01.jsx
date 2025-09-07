@@ -1,26 +1,71 @@
+// src/pages/NaverBookPages/NaverBook_page01.jsx
 import { useNavigate } from "react-router-dom"; // 페이지 이동을 위한 훅
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import "./NaverBook_page01.css";
 import Header from "../../components/Header";
 import Button from "../../components/Button";
 import MissionPopup from "../../components/MissionPopup";
 import Highlight from "../../components/highlight"; // 하이라이트 및 툴팁 UI 컴포넌트
 import { DataDispatchContext } from "../../App";
+import NaverMissionButton from "../../components/NaverBookComponents/NaverMissionButton.jsx";
+
+// === 유틸: 랜덤 미래 날짜 생성(YYYY-MM-DD) ===
+const getRandomFutureDate = (minDays = 1, maxDays = 60) => {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const add = Math.floor(Math.random() * (maxDays - minDays + 1)) + minDays;
+  const d = new Date(today);
+  d.setDate(today.getDate() + add);
+  return d.toLocaleDateString("sv-SE"); // "YYYY-MM-DD"
+};
 
 const NaverBook_page01 = () => {
   const nav = useNavigate(); // 페이지 이동 함수
-  const [showPopup, setShowPopup] = useState(true); // 팝업창 표시 여부-> TRUE였다가 FALSE로 되면 팝업창닫힘
-  // USECONTEXT : useContext(DataDispatchContext)를 쓰면, 그 안에 저장된 데이터/함수들을 가져올 수 있음
-  const { getIsChallenged } = useContext(DataDispatchContext); // 미션모드 여부 가져오기
+  const [showPopup, setShowPopup] = useState(true); // 팝업창 표시 여부
+  const { getIsChallenged } = useContext(DataDispatchContext); // 미션모드 여부
+
+  // 팝업에 표시할 미션 값(표시용)
+  const [missionDisplay, setMissionDisplay] = useState({
+    dateIso: "",
+    dateText: "", 
+    time: "14:30",
+    timeText: "14:30", 
+    purpose: "보건증 발급",
+    request: "빠른 진료를 원해요",
+  });
+
+  // 미션 모드일 때 매번 랜덤 미래 날짜 생성 → 세션 저장 + 팝업 표시
+  useEffect(() => {
+    if (!getIsChallenged()) return;
+
+    const dateIso = getRandomFutureDate(1, 60); // 내일~60일 사이 임의의 일자
+    const time = "14:30";
+    const purpose = "보건증 발급";
+    const request = "빠른 진료를 원해요";
+
+    sessionStorage.setItem("missionDate", dateIso);
+    sessionStorage.setItem("missionTime", time);
+    sessionStorage.setItem("missionPurpose", purpose);
+    sessionStorage.setItem("missionRequest", request);
+
+    setMissionDisplay({
+      dateIso,
+      dateText: dateIso, 
+      time,
+      timeText: time, 
+      purpose,
+      request,
+    });
+  }, [getIsChallenged]);
 
   // 페이지 이동 + 시작 시간 저장 (미션 타이머 시작)
   const secondPage = () => {
-    sessionStorage.setItem("missionStart", new Date().toISOString()); // 시간 저장 -> 처음에 넣엇다가 뺴야되는 부분
-    nav("/NaverBook/page02"); // 다음 페이지로 이동
+    sessionStorage.setItem("missionStart", new Date().toISOString());
+    nav("/NaverBook/page02");
   };
 
   const handleClosePopup = () => {
-    setShowPopup(false); // 팝업 닫기
+    setShowPopup(false);
   };
 
   return (
@@ -30,12 +75,15 @@ const NaverBook_page01 = () => {
         <MissionPopup
           message={
             <span>
-              <span className="redHighlight">6월 30일</span>,{" "}
-              <span className="redHighlight">14시 30분</span>에<br />
-              진료 목적은 <span className="redHighlight">보건증 발급</span>으로,
+              <span className="redHighlight">{missionDisplay.dateText}</span>,{" "}
+              <span className="redHighlight">{missionDisplay.timeText}</span>에
+              <br />
+              진료 목적은{" "}
+              <span className="redHighlight">{missionDisplay.purpose}</span>
+              으로,
               <br />
               요청사항에는{" "}
-              <span className="redHighlight">빠른 진료를 원해요</span>로,
+              <span className="redHighlight">{missionDisplay.request}</span>로,
               <br />
               병원 예약 부탁해~
             </span>
@@ -153,6 +201,9 @@ const NaverBook_page01 = () => {
           <button className="more-info">정보 더보기</button>
         </div>
       </div>
+
+      {/* 좌상단 고정: 미션 다시보기 버튼 */}
+      <NaverMissionButton />
     </div>
   );
 };

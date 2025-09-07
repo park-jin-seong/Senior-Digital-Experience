@@ -5,6 +5,7 @@ import Button from "../../components/Button";
 import Header from "../../components/Header";
 import { DataStateContext, DataDispatchContext } from "../../App";
 import Highlight from "../../components/highlight";
+import NaverMissionButton from "../../components/NaverBookComponents/NaverMissionButton.jsx";
 
 const NaverBook_page04 = () => {
   // 이전 페이지에서 넘어온 예약 정보 (날짜, 시간)
@@ -20,7 +21,7 @@ const NaverBook_page04 = () => {
   const [medicaRequest, setMedicaRequest] = useState(false); // 요청사항 선택 여부
 
   const userState = useContext(DataStateContext); // 로그인 유저 정보
-  // userState는 전역 상태(Context)에서 가져온 로그인 정보 객체 -> 그런데 userState가 아직 undefined일 수 있다. 
+  // userState는 전역 상태(Context)에서 가져온 로그인 정보 객체 -> 그런데 userState가 아직 undefined일 수 있다.
   // ?. (optional chaining, 옵셔널 체이닝
   // 만약 userState?.loginedId가 없으면(= 로그인 안 했으면) 빈 객체 할당
   const loginedUser = userState?.loginedId || {};
@@ -168,6 +169,7 @@ const NaverBook_page04 = () => {
             ))}
           </div>
         </div>
+        <NaverMissionButton />
       </div>
     );
   }

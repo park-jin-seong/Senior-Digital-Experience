@@ -7,7 +7,7 @@ import { DataDispatchContext, DataStateContext } from "../../App";
 import "../../components/highlight.css";
 
 const NaverBook_page05 = () => {
-  const location = useLocation(); // 이전 페이지에서 넘긴 예약 정보 받기
+  const location = useLocation();
   const { getIsChallenged, setIsChallenged, onUpdate } =
     useContext(DataDispatchContext);
   const { loginedId } = useContext(DataStateContext);
@@ -18,8 +18,17 @@ const NaverBook_page05 = () => {
 
   const nav = useNavigate();
 
-  // 다시 도전 버튼 클릭 시 실행 (미션모드 on + 첫 페이지로 이동)
+  const AUTO_NAV_SECONDS = 0;
+  const AUTO_NAV_TARGET = "/";
+
+  // 미션모드 on + 첫 페이지로 이동
   const retryPage = () => {
+    // 새 랜덤 날짜를 다시 뽑을 수 있도록 세션 초기화
+    sessionStorage.removeItem("missionDate");
+    sessionStorage.removeItem("missionTime");
+    sessionStorage.removeItem("missionPurpose");
+    sessionStorage.removeItem("missionRequest");
+
     setIsChallenged("naverBook", true);
     nav("/NaverBook/page01");
   };
@@ -29,38 +38,64 @@ const NaverBook_page05 = () => {
   const [isFailed, setIsFailed] = useState(false); // 미션 실패 여부
   const [showResult, setShowResult] = useState(false); // 결과 보여줄지 여부
 
+  // 문자열 정규화 유틸 (공백 제거 + 소문자)
+  const norm = (v) => (v ?? "").toString().trim().toLowerCase();
+
   // 3초 후 미션 성공/실패 판정
   useEffect(() => {
     const timer = setTimeout(() => {
-      // 정답 조건 설정
-      const missionDate = "2025-06-30";
-      const missionTimeVal = "14:30";
-      const missionPurpose = "보건증 발급";
-      const missionRequest = "빠른 진료를 원해요";
+      // 세션에 저장한 미션 정답 조건 읽기
+      const missionDate = sessionStorage.getItem("missionDate");
+      const missionTimeVal = sessionStorage.getItem("missionTime") || "14:30";
+      const missionPurpose =
+        sessionStorage.getItem("missionPurpose") || "보건증 발급";
+      const missionRequest =
+        sessionStorage.getItem("missionRequest") || "빠른 진료를 원해요";
 
-      // 각각의 조건 비교
-      const isDateMatch = date === missionDate;
-      const isTimeMatch = time === missionTimeVal;
-      const isPurposeMatch = purposeTreatment?.includes(missionPurpose);
-      const isRequestMatch = treatmentRequest === missionRequest;
+      // 각각의 조건 비교 (안전하게 정규화)
+      const isDateMatch = norm(date) === norm(missionDate);
+      const isTimeMatch = norm(time) === norm(missionTimeVal);
+
+      // purposeTreatment가 배열/문자열 모두 대응
+      const isPurposeMatch = Array.isArray(purposeTreatment)
+        ? purposeTreatment.map(norm).includes(norm(missionPurpose))
+        : norm(purposeTreatment).includes(norm(missionPurpose));
+
+      const isRequestMatch = norm(treatmentRequest) === norm(missionRequest);
+
+      // 디버깅 로그 (필요 시 개발자도구에서 확인)
+      console.log({
+        fromPage: { date, time, purposeTreatment, treatmentRequest },
+        fromMission: {
+          missionDate,
+          missionTimeVal,
+          missionPurpose,
+          missionRequest,
+        },
+        match: { isDateMatch, isTimeMatch, isPurposeMatch, isRequestMatch },
+      });
 
       // 네 가지 모두 맞아야 성공
       const isAllMatch =
         isDateMatch && isTimeMatch && isPurposeMatch && isRequestMatch;
 
       if (isAllMatch) {
-        // 미션 성공 시 mission 배열 업데이트
-        const mission = loginedId.mission;
-        mission[1] = true;
-
-        onUpdate(
-          loginedId.id,
-          loginedId.phoneNum,
-          loginedId.password,
-          loginedId.birth,
-          mission
-        );
-
+        // 미션 성공 시 사용자 mission 배열 업데이트
+        try {
+          const mission = Array.isArray(loginedId?.mission)
+            ? [...loginedId.mission]
+            : [];
+          mission[1] = true; // 인덱스는 프로젝트 규칙에 맞게 유지
+          onUpdate?.(
+            loginedId?.id,
+            loginedId?.phoneNum,
+            loginedId?.password,
+            loginedId?.birth,
+            mission
+          );
+        } catch (e) {
+          console.warn("onUpdate 처리 중 오류:", e);
+        }
         setIsConfirmed(true);
       } else {
         setIsFailed(true);
@@ -71,6 +106,16 @@ const NaverBook_page05 = () => {
 
     return () => clearTimeout(timer); // 컴포넌트 사라지면 타이머 해제
   }, []);
+
+  // 성공 후 자동 네비게이트
+  useEffect(() => {
+    if (showResult && isConfirmed && AUTO_NAV_SECONDS > 0) {
+      const t = setTimeout(() => {
+        nav(AUTO_NAV_TARGET);
+      }, AUTO_NAV_SECONDS * 1000);
+      return () => clearTimeout(t);
+    }
+  }, [showResult, isConfirmed, nav]);
 
   return (
     <div className="bigContainer">
@@ -111,11 +156,16 @@ const NaverBook_page05 = () => {
               </>
             )}
 
-            {/* 미션 성공 (실전 모드일 때만) */}
-            {showResult && isConfirmed && getIsChallenged() && (
+            {/*  미션/연습모드와 무관하게 성공 UI 표시 */}
+            {showResult && isConfirmed && (
               <div className="resultBox success">
-                <h2>미션 성공</h2>
+                <h2>{getIsChallenged() ? "미션 성공" : "연습 성공"}</h2>
                 <p>예약 정보가 성공적으로 전달되었습니다.</p>
+                {AUTO_NAV_SECONDS > 0 && (
+                  <p className="autoNavHint">
+                    {AUTO_NAV_SECONDS}초 후 다음 화면으로 이동합니다…
+                  </p>
+                )}
               </div>
             )}
 
@@ -131,7 +181,7 @@ const NaverBook_page05 = () => {
               </div>
             )}
 
-            {/* 연습모드일 때는 성공 실패 상관없이 연습 종료 */}
+            {/* 연습모드일 때는 실패 → 연습 종료 */}
             {showResult && isFailed && !getIsChallenged() && (
               <div className="resultBox fail">
                 <h2>연습모드 종료</h2>
@@ -153,11 +203,17 @@ const NaverBook_page05 = () => {
             <p className="bookDate">
               {date} ∘ {slot} {time}
             </p>
-            {purposeTreatment && purposeTreatment.length > 0 && (
-              <p className="bookPurpose">
-                진료 목적: {purposeTreatment.join(", ")}
-              </p>
-            )}
+            {purposeTreatment &&
+              (Array.isArray(purposeTreatment)
+                ? purposeTreatment.length > 0
+                : !!purposeTreatment) && (
+                <p className="bookPurpose">
+                  진료 목적:{" "}
+                  {Array.isArray(purposeTreatment)
+                    ? purposeTreatment.join(", ")
+                    : purposeTreatment}
+                </p>
+              )}
             {treatmentRequest && (
               <p className="bookRequest">요청사항: {treatmentRequest}</p>
             )}
