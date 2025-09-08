@@ -353,4 +353,42 @@
     border-width: 5px;
     margin-left: -5px;
   }
+
+  /* ===== 미션 다시 보기 FAB ===== */
+.mission-fab {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10000; /* 헤더/모든 박스 위 */
+  border: none;
+  border-radius: 999px;
+  padding: 12px 16px;
+  font-size: 16px;
+  line-height: 1;
+  background: #03c75a;
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease, opacity .2s ease;
+}
+
+.mission-fab:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 22px rgba(0,0,0,0.22);
+}
+
+.mission-fab:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+}
+
+@media (max-width: 480px) {
+  .mission-fab {
+    right: 12px;
+    bottom: 12px;
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+}
+
 }

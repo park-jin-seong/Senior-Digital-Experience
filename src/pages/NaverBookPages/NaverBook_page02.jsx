@@ -4,6 +4,7 @@ import Header from "../../components/Header";
 import Highlight from "../../components/highlight"; // 강조 효과 및 툴팁 컴포넌트
 import { DataDispatchContext } from "../../App";
 import { useContext } from "react";
+import NaverMissionButton from "../../components/NaverBookComponents/NaverMissionButton.jsx";
 
 const NaverBook_page02 = () => {
   const nav = useNavigate(); // 페이지 이동 함수 생성
@@ -123,6 +124,7 @@ const NaverBook_page02 = () => {
           </div>
         </div>
       </div>
+      <NaverMissionButton />
     </div>
   );
 };
